@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -38,13 +39,20 @@ public class AccessExpressionRequestCondition extends AbstractRequestCondition<A
 			SecurityExpressionHandler<FilterInvocation> handler, boolean method) {
 		if (accessExpression == null) {
 			expression = null;
-			id = AccessExpressionRequestCondition.class.toString();
 		} else {
 			expression = handler.getExpressionParser().parseExpression(accessExpression);
-			id = AccessExpressionRequestCondition.class + "." + accessExpression;
 		}
+		this.id = UUID.randomUUID().toString();
 		this.handler = handler;
 		this.method = method;
+	}
+
+	/**
+	 * Gets the unique id for this expression.
+	 * @return
+	 */
+	public String getId() {
+		return id;
 	}
 
 	public Expression getExpression() {
@@ -100,7 +108,8 @@ public class AccessExpressionRequestCondition extends AbstractRequestCondition<A
 	 * @return
 	 */
 	protected boolean isAuthorized(HttpServletRequest request) {
-		Boolean result = (Boolean) request.getAttribute(id);
+		String requestAttr = AccessExpressionRequestCondition.class + "." + id;
+		Boolean result = (Boolean) request.getAttribute(requestAttr);
 		if (result == null) {
 			if (expression == null) {
 				result = true;
@@ -109,7 +118,7 @@ public class AccessExpressionRequestCondition extends AbstractRequestCondition<A
 				EvaluationContext c = handler.createEvaluationContext(SecurityContextHolder.getContext().getAuthentication(), f);
 				result = ExpressionUtils.evaluateAsBoolean(expression, c);
 			}
-			request.setAttribute(id, result);
+			request.setAttribute(requestAttr, result);
 			if (logger.isDebugEnabled()) {
 				if (expression != null) {
 					logger.debug("Evaluated access expression '" + expression.getExpressionString()

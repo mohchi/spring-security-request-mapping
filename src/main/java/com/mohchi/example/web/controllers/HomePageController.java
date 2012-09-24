@@ -23,9 +23,10 @@ public class HomePageController {
 		return "homePage";
 	}
 
-	@RequestMapping("/secure")
-	@PreAuthorize("isAuthenticated()")
-	public String securePage() {
+	@RequestMapping("/secure/{name}")
+	@PreAuthorize("authentication.name == #name")
+	public String securePage(Principal principal, ModelMap model) {
+		model.addAttribute("name", principal.getName());
 		return "securePage";
 	}
 
