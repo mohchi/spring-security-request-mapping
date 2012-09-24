@@ -61,7 +61,8 @@ public class ExtendedRequestMappingHanderMapping extends RequestMappingHandlerMa
 	}
 
 	/**
-	 * Stores the pattern into the 
+	 * Stores the matching pattern into the request so it can be later used by the
+	 * {@code PathVariableLookupEvaluationContext} if necessary.
 	 */
 	@Override
 	protected RequestMappingInfo getMatchingMapping(RequestMappingInfo info, HttpServletRequest request) {
