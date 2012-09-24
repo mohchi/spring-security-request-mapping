@@ -24,24 +24,24 @@ public class ExtendedRequestMappingHanderMapping extends RequestMappingHandlerMa
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void afterPropertiesSet() {
 		// code borrowed from AbstractAuthorizeTag
-        ApplicationContext appContext = WebApplicationContextUtils
-        		.getRequiredWebApplicationContext(getServletContext());
+		ApplicationContext appContext = WebApplicationContextUtils
+				.getRequiredWebApplicationContext(getServletContext());
 		Map<String, SecurityExpressionHandler> handlers = appContext
 				.getBeansOfType(SecurityExpressionHandler.class);
 
-        for (SecurityExpressionHandler h : handlers.values()) {
-            if (FilterInvocation.class.equals(GenericTypeResolver.resolveTypeArgument(h.getClass(),
-                    SecurityExpressionHandler.class))) {
-                handler = h;
-                break;
-            }
-        }
+		for (SecurityExpressionHandler h : handlers.values()) {
+			if (FilterInvocation.class.equals(GenericTypeResolver
+					.resolveTypeArgument(h.getClass(), SecurityExpressionHandler.class))) {
+				handler = h;
+				break;
+			}
+		}
 
-        if (handler == null) {
-	        throw new IllegalStateException("No visible WebSecurityExpressionHandler instance " +
-	        		"could be found in the application context");
-        }
-        super.afterPropertiesSet();
+		if (handler == null) {
+			throw new IllegalStateException("No visible WebSecurityExpressionHandler instance "
+					+ "could be found in the application context");
+		}
+		super.afterPropertiesSet();
 	}
 
 	@Override
