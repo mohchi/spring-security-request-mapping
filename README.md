@@ -21,15 +21,20 @@ Spring Security's @PreAuthorize annotation into Spring MVC's request routing mec
     }
 
 Normally, the code above would not work in Spring MVC because there's a duplicate mapping.
-Using this project, Spring MVC will route a request for "/" to authenticatedHomePage() if
-the user is authenticated. Otherwise it will go to homePage().
+Using this project, Spring MVC will route a request for "/" to `authenticatedHomePage()` if
+the user is authenticated. Otherwise it will go to `homePage()`.
 
-Like other security expressions, you can reference `hasPermission()`, `authentication`, and
-`principal` in an expression. You can also reference the `request` and any path variables
-defined in the @RequestMapping:
+Within an expression, you can reference `hasPermission()`, `authentication`, `principal`,
+and, depending on the `SecurityExpressionHandler` in use, `request`. You can also reference
+any path variables defined in the `@RequestMapping` annotation:
 
     @RequestMapping("/secure/{name}")
     @PreAuthorized("authentication.name == #name")
     public String securePage() {
     	return "securePage";
     }
+
+Finally, if a handler is matched for a request based on the `@RequestMapping` specification
+but fails the security expression (and there are no other suitable handlers),
+an `AccessDeniedException` is thrown for Spring Security's `ExceptionTranslationFilter`
+to deal with as it sees fit.
