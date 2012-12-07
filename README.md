@@ -1,13 +1,14 @@
-spring-security-request-mapping-demo
-====================================
+spring-security-request-mapping
+===============================
 
 Spring MVC Integration with Spring Security's @PreAuthorize Annotation
 ----------------------------------------------------------------------
 
 Read the introductory post on our blog: http://ow.ly/dXcNC
 
-This is a sample web project with a few extended Spring MVC classes that integrate
-Spring Security's @PreAuthorize annotation into Spring MVC's request routing mechanism:
+This is a sample web project with a few extended Spring MVC classes demonstrating
+how to integrate Spring Security's @PreAuthorize annotation into Spring MVC's
+request routing mechanism:
 
     @RequestMapping("/")
     @PreAuthorize("isAuthenticated()")
