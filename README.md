@@ -1,5 +1,5 @@
-spring-security-request-mapping
-===============================
+spring-security-request-mapping-demo
+====================================
 
 Spring MVC Integration with Spring Security's @PreAuthorize Annotation
 ----------------------------------------------------------------------
